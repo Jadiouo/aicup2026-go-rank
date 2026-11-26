@@ -5,7 +5,7 @@
 
 | 類別 | 做法 |
 |---|---|
-| **自訓權重（公開 Release）** | 我們自己訓練出來的模型參數。放在這個 repo 的 GitHub Release，下載網址 `RELEASE_URL`：**待補**（Release 建好後填入 `colab/reproduce_final.ipynb` 與 README） |
+| **自訓權重（公開 Release）** | 我們自己訓練出來的模型參數。放在這個 repo 的 GitHub Release，下載網址 `RELEASE_URL` = `https://github.com/Jadiouo/aicup2026-go-rank/releases/download/v1.0/`（已填入 `colab/*.ipynb` 與 README；各檔下載網址為此前綴加資產名） |
 | **官方資料衍生中間檔（僅提供主辦方）** | 由主辦方的官方棋譜算出來的特徵、向量、各模型對測試題／驗證題的機率與預測檔。**不放 repo、不放 Release**；可應主辦單位要求以私人連結另行提供。沒有它們時如何重新產生，見 README |
 | **外部（不散布，附下載網址）** | KataGo 執行檔與網路、HumanSL 檢查點、Strength Estimator 權重。我們不再散布，只給官方網址與放置路徑（第 3 節） |
 

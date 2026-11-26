@@ -12,7 +12,7 @@ AI CUP 2026 秋季賽「圍棋棋力與風格預測競賽」競賽二的程式�
 
 
 > **先講三件事**
-> 1. **自訓權重**（5 個檔，167.2 MB，最大單檔 74.7 MB）放在這個 repo 的 GitHub Release，下載網址 `RELEASE_URL`：**待補**。
+> 1. **自訓權重**（5 個檔，167.2 MB，最大單檔 74.7 MB）放在這個 repo 的 GitHub Release，下載網址 `RELEASE_URL` = `https://github.com/Jadiouo/aicup2026-go-rank/releases/download/v1.0/`。
 > 2. **由官方棋譜算出來的中間檔**（特徵、向量、各模型對測試題／驗證題的機率）**不公開**：不在 repo、不在 Release；可應主辦單位要求以私人連結另行提供（見「官方資料衍生的中間檔」）。
 > 3. **外部模型**（KataGo 網路與執行檔、HumanSL、Strength Estimator 權重）**不散布**，只列官方下載網址與放置路徑（見「外部資源」）。
 >
@@ -104,7 +104,7 @@ Colab 上可用 `colab/colab_utils.py` 的 `fetch_external()` 一次下載並驗
 
 | 類別 | 檔數 | 合計 | 在哪裡 |
 |---|---:|---:|---|
-| 自訓權重 | 5 | 167.2 MB（最大單檔 `final_s0__last.pt` 74.7 MB） | **GitHub Release**，下載網址 `RELEASE_URL`：**待補**（`colab/reproduce_final.ipynb` 第一格同名變數） |
+| 自訓權重 | 5 | 167.2 MB（最大單檔 `final_s0__last.pt` 74.7 MB） | **GitHub Release**，下載網址 `RELEASE_URL` = `https://github.com/Jadiouo/aicup2026-go-rank/releases/download/v1.0/`（`colab/reproduce_final.ipynb` 第一格同名變數） |
 | 官方資料衍生中間檔 | 14 | 1129.9 MB（最後一步需要的 2 檔共 4.6 MB） | **不公開**；僅提供主辦方 |
 | 外部（KataGo、HumanSL、SE） | 5 | 約 1.0 GB | 不散布；官方網址見上表 |
 
@@ -134,7 +134,7 @@ Colab 上可用 `colab/colab_utils.py` 的 `fetch_external()` 一次下載並驗
 | [`colab/reproduce_final.ipynb`](colab/reproduce_final.ipynb) | clone → 安裝鎖版本套件 → （選用）下載外部權重 → 從 `RELEASE_URL` 下載自訓權重並驗 sha256 → 從 `INTERMEDIATE_DIR` 讀入中間檔並驗 sha256 → 跑最後一步 → 印出 sha256 並與預期值比對 | CPU 即可，免費版可跑完；約 5 分鐘 |
 | [`colab/full_pipeline.ipynb`](colab/full_pipeline.ipynb) | 沒有中間檔時，由官方棋譜重新產生的分段說明；每段標硬體、原作者耗時、免費版能否跑完；重段落預設不執行 | 免費版**跑不完**整條（GPU 約 71 小時以上，另加微調網路輸入編碼在學校 CPU 約 70 小時，分項相加） |
 
-使用方式（Colab）：File → Open notebook → GitHub，貼 repo 網址，開 `colab/reproduce_final.ipynb`，填第一格的 `REPO_URL`、`RELEASE_URL`（目前都是「待補」）與 `INTERMEDIATE_DIR`，Runtime → Run all。
+使用方式（Colab）：File → Open notebook → GitHub，貼 repo 網址，開 `colab/reproduce_final.ipynb`，填第一格的 `REPO_URL`（目前是「待補」）、`RELEASE_URL`（已預設為上列網址前綴；目前 repo 為私人，需有權限才能下載）與 `INTERMEDIATE_DIR`，Runtime → Run all。
 官方資料不附；Rank 最後一步不需要官方原始棋譜。
 
 筆記本以本機 `jupyter nbconvert --execute` 實跑過 `reproduce_final.ipynb`（Python 3.12、全新 venv 內以 `requirements.txt` 安裝；Release 下載改以本機 HTTP 伺服器代替；`INTERMEDIATE_DIR` 指到原專案保存的中間檔），sha256 全部相符；`full_pipeline.ipynb` 只跑了預設（不含重段落）。**尚未在真正的 Colab 上跑過**（Colab 的 Python／套件版本可能與鎖定版本不同；若 pip 提示重新啟動，照做後從頭重跑）。
