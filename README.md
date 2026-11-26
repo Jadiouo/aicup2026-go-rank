@@ -16,7 +16,7 @@ AI CUP 2026 秋季賽「圍棋棋力與風格預測競賽」競賽二的程式�
 > 2. **由官方棋譜算出來的中間檔**（特徵、向量、各模型對測試題／驗證題的機率）**不公開**：不在 repo、不在 Release；可應主辦單位要求以私人連結另行提供（見「官方資料衍生的中間檔」）。
 > 3. **外部模型**（KataGo 網路與執行檔、HumanSL、Strength Estimator 權重）**不散布**，只列官方下載網址與放置路徑（見「外部資源」）。
 >
-> 另外：從棋譜整條重跑需要先重新編碼約 70 小時（見「已知限制」）。能直接重跑的是「中間檔 → 最終 CSV」這一段；更上游的每一步都附程式與說明。
+> 另外：從棋譜整條重跑需要 GPU 約 71 小時以上，另加微調網路輸入編碼在學校 CPU（4 個行程）約 70 小時（沒有整條量過；見「已知限制」）。能直接重跑的是「中間檔 → 最終 CSV」這一段；更上游的每一步都附程式與說明。
 
 ## 授權
 
@@ -120,7 +120,7 @@ Colab 上可用 `colab/colab_utils.py` 的 `fetch_external()` 一次下載並驗
 
 | 中間檔 | 重新產生需要 | 腳本（參數見檔頭說明；步驟表見 PIPELINE.md） | 硬體與時間 | 備註 |
 |---|---|---|---|---|
-| `test_inputs.npz`（測試題六組機率） | 官方測試檔；L0／HSL／SE／主幹向量；四條腿；Release 的 `finh_full`、`final_s0`、`c1_fit.npz` | `scripts/experiments/e103/e103_make.py`、`e91/`、`e96/`、`e101/`、`e102/` | GPU 向量匯出＋CPU | **四條腿的模型檔沒有保存**，需從訓練端特徵重訓（訓練端編碼約 70 小時，估計值） |
+| `test_inputs.npz`（測試題六組機率） | 官方測試檔；L0／HSL／SE／主幹向量；四條腿；Release 的 `finh_full`、`final_s0`、`c1_fit.npz` | `scripts/experiments/e103/e103_make.py`、`e91/`、`e96/`、`e101/`、`e102/` | GPU 向量匯出＋CPU | **四條腿的模型檔沒有保存**，需從訓練端特徵重訓（GPU 約 71 小時以上，另加微調網路輸入編碼在學校 CPU 約 70 小時，分項相加） |
 | `val_preds.npz`（驗證題六組機率與標籤） | 官方訓練棋譜；`ft4_s0`（Release）對驗證題的輸出 | `scripts/experiments/e103/e103_val.py` 等 | GPU（學校 RTX8000 約 11 小時訓練 ft4） | 上游 `ft4_s0_val12.npz` 已不在；驗證側只能用保存版 |
 | `final_s0_test12.npz`、`S_test_own/opp_b.npz`、`head_b.npz` | 官方測試棋譜；Release 的 `final_s0`、`finh_full` | `scripts/experiments/e103/e103_export.py`、`e91/e91_embed_b.py`、`e91_final_b.py` | GPU 推論 | 只做推論，不重訓 |
 | `S_bank_opp_full.npz`、`bank_meta_full.npz`（對手側向量庫） | 官方訓練棋譜；Release 的 `finh_full` | `scripts/experiments/e102/e102_prep.py`、`e103/e103_data.py` | GPU 約 4,853 秒（本機 RTX 5070 Ti，測試版向量庫） | 約 1 GB |
@@ -132,7 +132,7 @@ Colab 上可用 `colab/colab_utils.py` 的 `fetch_external()` 一次下載並驗
 | 筆記本 | 做什麼 | 硬體／耗時 |
 |---|---|---|
 | [`colab/reproduce_final.ipynb`](colab/reproduce_final.ipynb) | clone → 安裝鎖版本套件 → （選用）下載外部權重 → 從 `RELEASE_URL` 下載自訓權重並驗 sha256 → 從 `INTERMEDIATE_DIR` 讀入中間檔並驗 sha256 → 跑最後一步 → 印出 sha256 並與預期值比對 | CPU 即可，免費版可跑完；約 5 分鐘 |
-| [`colab/full_pipeline.ipynb`](colab/full_pipeline.ipynb) | 沒有中間檔時，由官方棋譜重新產生的分段說明；每段標硬體、原作者耗時、免費版能否跑完；重段落預設不執行 | 免費版**跑不完**整條（訓練端編碼約 70 小時，估計值） |
+| [`colab/full_pipeline.ipynb`](colab/full_pipeline.ipynb) | 沒有中間檔時，由官方棋譜重新產生的分段說明；每段標硬體、原作者耗時、免費版能否跑完；重段落預設不執行 | 免費版**跑不完**整條（GPU 約 71 小時以上，另加微調網路輸入編碼在學校 CPU 約 70 小時，分項相加） |
 
 使用方式（Colab）：File → Open notebook → GitHub，貼 repo 網址，開 `colab/reproduce_final.ipynb`，填第一格的 `REPO_URL`、`RELEASE_URL`（目前都是「待補」）與 `INTERMEDIATE_DIR`，Runtime → Run all。
 官方資料不附；Rank 最後一步不需要官方原始棋譜。
@@ -153,7 +153,7 @@ WORK_DIR=<含 e103/、e117/ 的目錄> .venv/bin/python final/make_rank_final.py
 
 ## 已知限制
 
-1. **全流程重跑成本高**：從棋譜重新編碼約 70 小時（SE 抽取 12.9 小時、主幹向量與逐局面向量 11 小時以上、S 認人網路約 42 GPU 小時（Rank 只用其中 `finh_full`，約 20.8 小時）、ft4 約 11 小時、HumanSL 掃描約 100 萬盤）。
+1. **全流程重跑成本高**：從棋譜重新編碼與重訓，GPU 約 71 小時以上（已知分項：強度估計器 12.9、中間層向量約 11、認人網路兩版約 29、微調網路兩版約 18.5 小時），另加微調網路輸入編碼在學校 CPU 以 4 個行程約 70 小時；沒有整條量過，棋力剖面掃描 100 萬盤另計。
 2. **GPU 結果不會位元重現**：GPU 上 `index_add_` 順序不固定、使用 fp16；各平台 torch 版本不同。KataGo 掃描用 1 visit＋隨機對稱，重掃逐盤有雜訊。CPU 的最後組合步驟則是位元重現。
 3. **sklearn 版本**：必須 1.9.1。LightGBM 4.7.0。
 4. **上游中間檔不在 repo**：腳本多半以 `.scratch/…` 為輸入輸出；各階段腳本是由實驗過程中複製演進而來（每階段複製前階段程式），沒有單一入口腳本能從棋譜整條重跑。

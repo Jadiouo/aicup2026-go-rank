@@ -71,6 +71,6 @@
 |---|---|---|
 | `ft4_s0_val12.npz`（`.scratch/e98/exports/`） | 驗證側 `val_preds.npz` 的上游 | 驗證側六組機率只能用保存版（中間檔） |
 | `se_uid.parquet`（`.scratch/e21/`） | 訓練端 SE 表（685,231 盤，GPU 12.9 小時） | Rank 的 SE 腿重訓需要 |
-| `X120_full.npy`、`G_full.npy`、`tok_full.npy`、各種 `pos_*_{trA,trB,val}.npz` | 訓練端 HSL W120 表、主幹向量、逐局面向量 | 要重訓任何網路都得先重新編碼（約 70 小時，估計值） |
+| `X120_full.npy`、`G_full.npy`、`tok_full.npy`、各種 `pos_*_{trA,trB,val}.npz` | 訓練端 HSL W120 表、主幹向量、逐局面向量 | 要重訓任何網路都得先重新編碼（GPU 約 71 小時以上，另加微調網路輸入編碼在學校 CPU 約 70 小時，分項相加） |
 | Rank 的 M03T2／M04T 模型 pkl 與 A1T2／A1P 各 15 個集合模型檔 | Rank 四條腿的訓練結果 | 只剩各腿的測試端輸出（中間檔 `test_m03.npy` 等）；要重算需從訓練端特徵重訓 |
 | `humanv0.ckpt`、KataGo 網路與執行檔 | 外部資源 | 重新下載（第 3 節，附 sha256） |
