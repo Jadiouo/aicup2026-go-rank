@@ -1,0 +1,13 @@
+# CPU environment (Python 3.12).  Versions are the ones the final submissions were produced / verified with.
+#   python3.12 -m venv .venv && .venv/bin/python -m pip install -r requirements.txt
+# scikit-learn 1.9.1 matters: the per-pool logistic-regression head (Player) is only reproduced bit-for-bit with sklearn 1.9.1 and the default tol.
+numpy==2.5.4
+scipy==1.18.1
+pandas==3.0.6
+pyarrow==26.0.0
+scikit-learn==1.9.1
+lightgbm==4.7.0
+PyYAML==6.0.3
+sgfmill==1.1.1
+matplotlib==3.11.2      # only for plotting scripts
+pytest==9.1.1

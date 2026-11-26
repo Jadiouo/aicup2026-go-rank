@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# working directories (large; never committed)
+.scratch/
+data/
+work/
+*.pt
+*.ckpt
+*.bin.gz
+*.npz
+*.npy
+*.parquet
+out/
+*.egg-info/
+build/

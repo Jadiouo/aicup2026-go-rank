@@ -1,0 +1,11 @@
+# GPU environment for the torch steps (KataGo trunk vectors, S network, encoders, pairwise matcher, ft4 reading network).
+# The final runs used the system Python 3.12 with torch 2.12.0+cu130 (CUDA 13.0, cuDNN 9.2); other platforms used Colab (torch 2.14.1+cu130,
+# numba 0.64.0), a lab VM (torch 2.6.0+cu124) and a university vGPU host (torch 2.6.0+cu126).  GPU results are NOT bit-reproducible across platforms.
+#   pip install torch==2.12.0 --index-url https://download.pytorch.org/whl/cu130
+torch==2.12.0
+numpy==2.4.6
+scipy==1.17.1
+pandas==3.0.3
+scikit-learn==1.9.0
+PyYAML==6.0.2
+numba==0.64.0           # scripts/experiments/e89/fastboard.py (board engine of the S network); not installed in the system python, installed on Colab

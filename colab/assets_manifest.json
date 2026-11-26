@@ -1,0 +1,178 @@
+[
+ {
+  "category": "weights",
+  "final": true,
+  "asset": "rank__stage2_fit.pkl",
+  "dest": ".scratch/e117/final/stage2_fit.pkl",
+  "bytes": 1778533,
+  "sha256": "c8a0ce87763d19f778ebe360c1be23597fd30dc0fa5594abe3fe80d81ad2bb3a",
+  "desc": "Rank：E117 第二階段（v12）擬合結果（pickle，內含 e117_core.Stage2）",
+  "sanitized": false
+ },
+ {
+  "category": "weights",
+  "final": false,
+  "asset": "finh_full__final_model.pt",
+  "dest": ".scratch/e90/colab/finh_full/final_model.pt",
+  "bytes": 15930521,
+  "sha256": "fec071cad0cabc7aacbecbb81297dfc3ac87ca51e1b73bcbb01b0828252b2a59",
+  "desc": "S 認人網路（測試端；7,365 類）",
+  "sanitized": false
+ },
+ {
+  "category": "weights",
+  "final": false,
+  "asset": "final_s0__last.pt",
+  "dest": ".scratch/e98/runs/final_s0/last.pt",
+  "bytes": 74724967,
+  "sha256": "d058726aed62c629782127977f3f061f1ef96b0ac6ef616373c642f2a618c199",
+  "desc": "Rank 讀法網路 ft4（交件版）",
+  "sanitized": true
+ },
+ {
+  "category": "weights",
+  "final": false,
+  "asset": "ft4_s0__last.pt",
+  "dest": ".scratch/e98/runs/ft4_s0/last.pt",
+  "bytes": 74724175,
+  "sha256": "d433ad6e1686c344a58cda922955392f836eb75171f1afdf2ead1d00e5f3aeba",
+  "desc": "Rank 讀法網路 ft4（驗證版；選用）",
+  "sanitized": true
+ },
+ {
+  "category": "weights",
+  "final": false,
+  "asset": "rank_up__c1_fit.npz",
+  "dest": ".scratch/e103/c1_fit.npz",
+  "bytes": 2508,
+  "sha256": "4ea8bd3b86452caaf65a9a8100147f02f8e5f781f1407b2b8eed29dc3a262a3c",
+  "desc": "C1 邏輯迴歸混合的擬合結果",
+  "sanitized": false
+ },
+ {
+  "category": "intermediate",
+  "final": true,
+  "asset": "rank__val_preds.npz",
+  "dest": ".scratch/e103/val_preds.npz",
+  "bytes": 4134402,
+  "sha256": "97244084a7a3b8054a31bac29b43653627636ef2de18d19d0dfd82ecd45bdc8b",
+  "desc": "Rank：驗證側（fold 4，4,568 題）六組機率＋標籤，用來擬合第二階段"
+ },
+ {
+  "category": "intermediate",
+  "final": true,
+  "asset": "rank__test_inputs.npz",
+  "dest": ".scratch/e117/final/test_inputs.npz",
+  "bytes": 447460,
+  "sha256": "07e519b80f1804a9bf5dc4aad700cbc6fa6f8c7598d4dd3ab5690751fad2016e",
+  "desc": "Rank：測試側 800 題六組機率"
+ },
+ {
+  "category": "intermediate",
+  "final": false,
+  "asset": "ref__rank_v13n.csv",
+  "dest": "ref/rank_v13n.csv",
+  "bytes": 11258,
+  "sha256": "3a9525a3e7e6273727d0e5fd0a6fc7d5fc2921b17c7687b36f83e961c9d13919",
+  "desc": "Rank 最終上傳檔"
+ },
+ {
+  "category": "intermediate",
+  "final": false,
+  "asset": "rank_up__final_s0_test12.npz",
+  "dest": ".scratch/e103/exports/final_s0_test12.npz",
+  "bytes": 6387014,
+  "sha256": "24b22501fbc8d9128df819e89084f47982f9f4df12c997d6ba5c7ff9d3eaa20c",
+  "desc": "Rank 讀法網路測試端輸出"
+ },
+ {
+  "category": "intermediate",
+  "final": false,
+  "asset": "rank_up__S_bank_opp_full.npz",
+  "dest": ".scratch/e103/bank/S_bank_opp_full.npz",
+  "bytes": 1031686623,
+  "sha256": "9f82fb6788c03af519bf062eae4c9d19bd89dea6edd66271648c88be019cf03e",
+  "desc": "Rank 對手側向量庫（C2 近鄰票）"
+ },
+ {
+  "category": "intermediate",
+  "final": false,
+  "asset": "rank_up__bank_meta_full.npz",
+  "dest": ".scratch/e103/bank/bank_meta_full.npz",
+  "bytes": 14924859,
+  "sha256": "2bcb98ddea6e56d6730c06c7fec0129dd4631ee3379fb592e0760c7718698096",
+  "desc": "向量庫的中繼資料"
+ },
+ {
+  "category": "intermediate",
+  "final": false,
+  "asset": "rank_up__head_b.npz",
+  "dest": ".scratch/e91/b/head_b.npz",
+  "bytes": 4310889,
+  "sha256": "f68552f76faeb429e4a316bf1c1a4e40acfb46a58c7bac50c0df1a2ef92f12c8",
+  "desc": "Rank 認人網路分類頭（測試端）"
+ },
+ {
+  "category": "intermediate",
+  "final": false,
+  "asset": "rank_up__S_test_own_b.npz",
+  "dest": ".scratch/e91/b/S_test_own_b.npz",
+  "bytes": 10371248,
+  "sha256": "57b5728eecec10fb6022ce4ae317c1d269aca2c72c8d7860d3d65f46185b9021",
+  "desc": "Rank 測試盤己方向量"
+ },
+ {
+  "category": "intermediate",
+  "final": false,
+  "asset": "rank_up__S_test_opp_b.npz",
+  "dest": ".scratch/e91/b/S_test_opp_b.npz",
+  "bytes": 10371248,
+  "sha256": "e535cb3ff68d811658cb911d2cfba5bafb72c6e75bce7074961e5555176594f7",
+  "desc": "Rank 測試盤對手向量"
+ },
+ {
+  "category": "intermediate",
+  "final": false,
+  "asset": "rank_up__test_m03.npy",
+  "dest": ".scratch/e66/final/test_m03.npy",
+  "bytes": 64128,
+  "sha256": "2e7bf261ed63cf853f5a11dd6e70fc9a309f8f43e1ee76ca32b08856bb67047b",
+  "desc": "Rank 腿 M03T2 測試輸出"
+ },
+ {
+  "category": "intermediate",
+  "final": false,
+  "asset": "rank_up__test_m04.npy",
+  "dest": ".scratch/e66/final/test_m04.npy",
+  "bytes": 64128,
+  "sha256": "03aa0056e690411c4e487ff0cb2decc60238cdf34fce7f0b637fd9fa3ff365ec",
+  "desc": "Rank 腿 M04T 測試輸出"
+ },
+ {
+  "category": "intermediate",
+  "final": false,
+  "asset": "rank_up__set_A1T2.npy",
+  "dest": ".scratch/e66/final/set_A1T2.npy",
+  "bytes": 960128,
+  "sha256": "6babdbabe0ce5326d55f32d6ce479ffd8d8a40fe4647ad5cc98a8b9c4a395e4e",
+  "desc": "Rank 腿 A1T2 測試輸出"
+ },
+ {
+  "category": "intermediate",
+  "final": false,
+  "asset": "rank_up__set_A1P.npy",
+  "dest": ".scratch/e79/final/set_A1P.npy",
+  "bytes": 960128,
+  "sha256": "ee93bc28af4f19f5981798fae0663f6a78ffc487d05005743cc676caad35bca3",
+  "desc": "Rank 腿 A1P 測試輸出"
+ },
+ {
+  "category": "intermediate",
+  "final": false,
+  "asset": "rank_up__aux.npz",
+  "dest": ".scratch/e29/bundle/aux.npz",
+  "bytes": 45203639,
+  "sha256": "0a5460e72ffe721c3f29540c7338154264125c6a3546b9ffa313b26c596938cf",
+  "desc": "Rank 驗證框架輔助表（e105_core.load_val 讀取）"
+ }
+]

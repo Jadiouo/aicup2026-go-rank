@@ -1,0 +1,9 @@
+RANKS: tuple[str, ...] = ("D", "C", "B", "A", "1D", "2D", "3D", "4D", "5D", "6D")
+RANK_TO_ID: dict[str, int] = {r: i for i, r in enumerate(RANKS)}
+ID_TO_RANK: dict[int, str] = {i: r for i, r in enumerate(RANKS)}
+BOARD: int = 19
+SEED: int = 2026
+OPEN_PLIES: int = 24
+OPEN_OWN_MOVES: int = 12
+BIGRAM_BUCKETS: int = 1024
+PASS_INDEX: int = BOARD * BOARD  # 361
