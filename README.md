@@ -29,10 +29,10 @@ English: code for AI CUP 2026 Go, task 2 (predict a player's rank level from a s
 
 1. 在 Colab 選 File → Open notebook → GitHub，貼上 `https://github.com/Jadiouo/aicup2026-go-rank`，開啟 `colab/reproduce_final.ipynb`。
 2. 把第一格的 `INTERMEDIATE_DIR` 指到放中間檔的資料夾，例如掛載的 Google Drive。`REPO_URL` 和 `RELEASE_URL` 已經填好。
-3. Runtime → Run all。筆記本會安裝鎖定版本的套件，從 Release 下載自訓權重，驗證中間檔，然後跑最後一步。
+3. Runtime → Run all。筆記本會安裝鎖定版本的套件，從 Release 下載我們的權重，驗證中間檔，然後跑最後一步。
 4. 結尾會印出提交檔的 sha256，應該是 `3a9525a3e7e6273727d0e5fd0a6fc7d5fc2921b17c7687b36f83e961c9d13919`。
 
-自訓權重會自動從這個 repo 的 Release 下載。由官方棋譜算出來的中間檔不公開，需要向主辦單位索取，或照 [PIPELINE.md](PIPELINE.md) 自己產生。
+我們的權重會自動從這個 repo 的 Release 下載。由官方棋譜算出來的中間檔不公開，需要向主辦單位索取，或照 [PIPELINE.md](PIPELINE.md) 自己產生。
 
 筆記本在本機用 `jupyter nbconvert --execute` 實際跑過，結果逐位元組相符。還沒有在真正的 Colab 上跑過。Colab 的 Python 和套件版本可能和鎖定版本不同，如果 pip 提示重新啟動，照做後從頭再跑一次。
 
@@ -71,19 +71,21 @@ colab/                 Colab 筆記本、colab_utils.py、assets_manifest.json
 
 ## 資料與權重
 
-- 自訓權重共 5 個檔、167.2 MB，放在這個 repo 的 [Release v1.0](https://github.com/Jadiouo/aicup2026-go-rank/releases/tag/v1.0)。
+- 權重共 5 個檔、167.2 MB，放在這個 repo 的 [Release v1.0](https://github.com/Jadiouo/aicup2026-go-rank/releases/tag/v1.0)。其中 `final_s0`、`ft4_s0` 含從 KataGo HumanSL 微調出的最後 4 個區塊，下面授權段有說明；其餘 3 個檔是我們自己從頭訓練的。
 - 由官方棋譜算出的中間檔共 14 個檔、1129.9 MB，不放在 repo 或 Release，可應主辦單位要求以私人連結提供。
-- 官方棋譜本身不附。外部模型（KataGo、HumanSL、Strength Estimator）也不散布，下載網址與放置路徑見 [ASSETS.md](ASSETS.md) 第 3 節。
+- 官方棋譜本身不附。原始的外部模型（KataGo、HumanSL、Strength Estimator）不散布，要自己下載，網址與放置路徑見 [ASSETS.md](ASSETS.md) 第 3 節。
 - 逐檔的大小與 sha256 在 ASSETS.md，機器可讀版是 `colab/assets_manifest.json`。
 
 ## 授權
 
 本 repo 採 GPL-3.0，全文見 [LICENSE](LICENSE)。其中 `scripts/experiments/e21/se_encode.py` 依 Strength Estimator（GPL-3.0）和 MiniZero（Apache-2.0）公開原始碼的行為，用 Python 重寫了輸入平面轉換，並非逐字複製。選用 GPL-3.0 與此相容。
 
-第三方元件不在本 repo 內，只有下載連結：
+Release 裡有兩個檔含 KataGo 的成分：`final_s0__last.pt` 和 `ft4_s0__last.pt`。它們包含從 KataGo HumanSL（b18c384nbt-humanv0）微調出來的最後 4 個區塊，算衍生權重，依 KataGo Neural Network License 散布。授權全文和著作權行在 [LICENSE-KataGo-network.txt](LICENSE-KataGo-network.txt)。其餘權重是我們自己從頭訓練的，採 GPL-3.0。原始的 KataGo 和 HumanSL 網路仍然要使用者自己下載。
+
+其他第三方元件不在本 repo 內，只有下載連結：
 
 - KataGo 程式：MIT 式授權（Copyright David J Wu (lightvector) and/or other authors），`cpp/external` 內的第三方元件各有授權。
-- KataGo 網路（kata1 與 Human SL）：KataGo Neural Network License，MIT 式。我們微調 HumanSL 檢查點得到的權重（`final_s0`、`ft4_s0`）也要遵守它。
+- KataGo 網路（kata1 與 Human SL）：KataGo Neural Network License，MIT 式。原始網路要自己下載，我們不散布。
 - Strength Estimator：程式庫是 GPL-3.0，權重沒有看到明確授權。我們只從權利人的公開頁面下載使用，不再散布。
 - MiniZero：Apache-2.0。
 - 使用的開源套件：numpy、scipy、pandas、pyarrow、scikit-learn、LightGBM、PyTorch、sgfmill、PyYAML、numba。

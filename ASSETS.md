@@ -6,15 +6,15 @@
 
 | 類別 | 做法 |
 |---|---|
-| 自訓權重（公開 Release） | 我們自己訓練出來的模型參數，放在這個 repo 的 GitHub Release。下載網址前綴是 `RELEASE_URL` = `https://github.com/Jadiouo/aicup2026-go-rank/releases/download/v1.0/`，已填入 `colab/*.ipynb`。各檔的下載網址是這個前綴加資產名 |
+| 我們的權重（公開 Release） | 我們訓練出來的模型參數，放在這個 repo 的 GitHub Release。其中 `final_s0`、`ft4_s0` 含從 KataGo HumanSL 微調出的區塊，屬衍生權重（見下方「注意」），其餘是我們自己從頭訓練的。下載網址前綴是 `RELEASE_URL` = `https://github.com/Jadiouo/aicup2026-go-rank/releases/download/v1.0/`，已填入 `colab/*.ipynb`。各檔的下載網址是這個前綴加資產名 |
 | 官方資料衍生中間檔（僅提供主辦方） | 由主辦方的官方棋譜算出來的特徵、向量，以及各模型對測試題與驗證題的機率和預測檔。不放 repo，也不放 Release，可應主辦單位要求以私人連結提供。沒有它們時怎麼重新產生，見 PIPELINE.md |
 | 外部（不散布，附下載網址） | KataGo 執行檔與網路、HumanSL 檢查點、Strength Estimator 權重。我們不散布，只給官方網址與放置路徑（第 3 節） |
 
-分類的標準是這樣：只含模型參數（權重、投影矩陣、迴歸係數）的歸為自訓權重。含官方棋局內容、由官方棋局逐盤算出的數值、對官方題目的預測，或內含官方玩家 id 與標籤的，一律歸為中間檔。
+分類的標準是這樣：只含模型參數（權重、投影矩陣、迴歸係數）的歸為我們的權重。含官方棋局內容、由官方棋局逐盤算出的數值、對官方題目的預測，或內含官方玩家 id 與標籤的，一律歸為中間檔。
 
 Release 沒有資料夾，所以清單裡的資產名就是 Release 上的檔名，路徑的 `/` 換成 `__`。「放回 repo 的位置」是相對於 repo 根目錄的路徑，`data/` 和 `.scratch/` 的約定見 PIPELINE.md 的「環境與路徑」。
 
-## 1. 自訓權重（公開 Release）
+## 1. 我們的權重（公開 Release）
 
 | 資產名 | 用途 | bytes | sha256 | 放回 repo 的位置 | 最後一步需要 |
 |---|---|---:|---|---|:---:|
@@ -30,7 +30,7 @@ Release 沒有資料夾，所以清單裡的資產名就是 Release 上的檔名
 
 **注意**
 - `.pkl` 檔（pickle）載入時會執行程式碼；請只使用本 repo Release 的檔案，並先核對 sha256。
-- 以 KataGo HumanSL 檢查點微調的權重（Rank 的 `final_s0`、`ft4_s0`）屬於衍生自 HumanSL 網路的模型，使用時請一併遵守 KataGo Neural Network License（見本檔第 3 節）。
+- `final_s0__last.pt`、`ft4_s0__last.pt` 含從 KataGo HumanSL（b18c384nbt-humanv0）微調出的最後 4 個區塊，屬衍生權重，依 KataGo Neural Network License 散布。授權全文和著作權行在 repo 根目錄的 `LICENSE-KataGo-network.txt`，Release 上也附同一份。表裡其餘權重是我們自己從頭訓練的。原始的 KataGo／HumanSL 網路仍須自行下載（第 3 節）。
 
 ## 2. 官方資料衍生中間檔（僅提供主辦方；不在 repo、不在 Release）
 

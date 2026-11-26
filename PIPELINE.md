@@ -225,7 +225,7 @@ Rank 用它「看對手是誰」。
 
 #### 7. 微調網路（ft4）
 
-驗證版是 `ft4_s0`，交件版是 `final_s0`。做法是把 KataGo humanv0 解凍最後 4 個區塊，接上集合網路和序數頭，用段位標籤微調。
+驗證版是 `ft4_s0`，交件版是 `final_s0`。做法是把 KataGo humanv0 解凍最後 4 個區塊，接上集合網路和序數頭，用段位標籤微調。微調後的區塊存在這兩個檔裡，屬 KataGo HumanSL 的衍生權重，依 KataGo Neural Network License 散布（全文見 `LICENSE-KataGo-network.txt`）。其餘的權重是我們自己從頭訓練的。
 
 - 訓練資料：K 線局面編碼用 `python scripts/experiments/e89/encode_k.py plan|run ...`。驗證版 bundle 用 `scripts/experiments/e98/e98_data.py extract`。交件版用 `scripts/experiments/e103/e103_final_data.py select|merge|verify`，它會加入驗證折的玩家，抽局面仍用 `e98_data.py extract`。測試端 bundle 用 `e103_data.py build|check|prep-test`。
 - 訓練（GPU，可續跑，12,000 步、種子 0）：驗證版 `python3 scripts/experiments/e98/e98_train.py --arm ft4 --seed 0 ...`，交件版 `python3 scripts/experiments/e103/e103_train.py --arm ft4 --seed 0 --run-name final_s0 ...`。後者是 e103 的複本，只改了訓練玩家集合。
@@ -315,7 +315,7 @@ N=5 的 200 題用邏輯迴歸版的答案，其餘用平移不變版。指令�
 
 - v13n 的 N=5 拼接：原專案當時是臨時拼接，沒有存檔。`final/make_rank_final.py` 是事後補的等價實作，已驗證與上傳檔逐列相同。
 - 驗證側六組機率 `val_preds.npz` 無法從上游重算，`ft4_s0_val12.npz` 等已刪。但產生它的程式（`e103_val.py formal`、`e98_*`、`e96_*`、`e102_*`）都在。
-- 局面抽取（`e98_data.py extract`、`e103_data.py build`）原本在學校主機執行。平台的排程與監看腳本不公開，平台無關的執行本體都在上面的表裡。
+- 局面抽取（`e98_data.py extract`、`e103_data.py build`）原本在另一台 GPU 工作站執行。平台的排程與監看腳本不公開，平台無關的執行本體都在上面的表裡。
 
 ## 已知限制
 
