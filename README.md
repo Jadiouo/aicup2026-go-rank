@@ -37,7 +37,7 @@ AI CUP 2026 秋季賽「圍棋棋力與風格預測競賽」競賽二的程式�
 ```
 README.md                  本檔
 LICENSE                    GPL-3.0 全文
-PIPELINE.md                管線：步驟、輸入輸出、耗時、硬體
+PIPELINE.md                管線：步驟、輸入輸出、耗時、硬體；末節「元件手冊」逐元件列訓練／推論指令、輸入、輸出
 ASSETS.md                  檔案清單：自訓權重（Release）／官方資料衍生中間檔（僅主辦方）／外部（官方網址），含大小與 sha256
 requirements.txt           CPU 環境（鎖版本）
 requirements-gpu.txt       GPU 環境（torch 2.12.0 等）
