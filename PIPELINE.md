@@ -188,7 +188,7 @@ data/contest_1104/   測試集：rank_prediction_test_{public,private}.csv
 .venv/bin/python -m scripts.experiments.e29.prep_bundle
 ```
 
-輸出 `.scratch/e29/bundle/{X.npy,aux.npz,manifest.json}`，內容是非保留玩家 712,945 盤的逐盤特徵與折角色。後面的主幹向量、集合模型和各腳本都讀它。
+輸出 `.scratch/e29/bundle/{X.npy,aux.npz,manifest.json}`，內容是非保留玩家 712,945 盤的逐盤特徵與所屬分組。後面的主幹向量、集合模型和各腳本都讀它。
 
 #### 3. 棋力剖面特徵（HumanSL 落子統計，前 60、120 手，104 欄）
 
@@ -205,10 +205,10 @@ data/contest_1104/   測試集：rank_prediction_test_{public,private}.csv
 
 #### 5. 中間層向量特徵（KataGo 主幹向量）
 
-包含前半盤 tk48、後半盤 lk48，以及 24 個局面 token。這是外部預訓練網路的內部啟動值，無訓練，PCA 在每折內擬合。
+包含前半盤 tk48、後半盤 lk48，以及 24 個局面 token。這是外部預訓練網路的內部啟動值，無訓練，PCA 在每組內擬合（驗證用交叉驗證：把玩家分成五組，輪流用四組訓練、預測剩下一組）。
 
-- 前半盤：`.venv/bin/python scripts/oneoff/e55_prep.py`，然後 GPU `python3 scripts/oneoff/e55_trunk.py`，再 `.venv/bin/python scripts/oneoff/e55_pca.py`，輸出 `G_full.npy` 和每折 PCA-48。
-- 後半盤：`e63_prep.py`，然後 GPU `e63_trunk.py`，再 `e63_pca.py`，輸出 `L_full.npy` 和每折 PCA-48。
+- 前半盤：`.venv/bin/python scripts/oneoff/e55_prep.py`，然後 GPU `python3 scripts/oneoff/e55_trunk.py`，再 `.venv/bin/python scripts/oneoff/e55_pca.py`，輸出 `G_full.npy` 和每組 PCA-48。
+- 後半盤：`e63_prep.py`，然後 GPU `e63_trunk.py`，再 `e63_pca.py`，輸出 `L_full.npy` 和每組 PCA-48。
 - 逐局面 token：`e79_items.py`，`e79_prep_local.py`，GPU `e79_gpu.py`（PCA-64 轉 fp16），最後 `e79_tok.py`，輸出 `tok_full.npy`。
 - 輸入：SGF 和 KataGo 的 `b18c384nbt-humanv0.ckpt`。編碼器在 `scripts/experiments/e13/encode.py`。
 
@@ -219,7 +219,7 @@ data/contest_1104/   測試集：rank_prediction_test_{public,private}.csv
 Rank 用它「看對手是誰」。
 
 - 資料：先 `PYTHONPATH=src:. .venv/bin/python scripts/experiments/e90/make_data.py union|test|meta`，得到 `u_games.npz`、`rosters.npz`、`t_games.npz`、`export_spec*`。再用 `scripts/experiments/e90/make_data_h.py build` 和 `python scripts/experiments/e90/make_data_h.py concat [--dir DIR]` 加入保留玩家的盤，得到 `uh_games.npz`、`rosters_h.npz`。自寫的棋盤引擎在 `scripts/experiments/e89/fastboard.py`（numba）。
-- 訓練（GPU，可續跑）：`python scripts/experiments/e90/driver_e90h.py --roster finh_full --root DIR --accum 2 --workers 8 --export auto`，20 輪、種子 0。DIR 內要放 `uh_games.npz rosters_h.npz t_games.npz export_spec_h.json export_spec_h.npz`。驗證版 `finh_v4` 排除了驗證折的玩家，先用 `.venv/bin/python scripts/experiments/e96/e96_roster.py` 建名單，再用 `scripts/experiments/e96/train_e96.py` 訓練。
+- 訓練（GPU，可續跑）：`python scripts/experiments/e90/driver_e90h.py --roster finh_full --root DIR --accum 2 --workers 8 --export auto`，20 輪、種子 0。DIR 內要放 `uh_games.npz rosters_h.npz t_games.npz export_spec_h.json export_spec_h.npz`。驗證版 `finh_v4` 排除了驗證組的玩家，先用 `.venv/bin/python scripts/experiments/e96/e96_roster.py` 建名單，再用 `scripts/experiments/e96/train_e96.py` 訓練。
 - 推論（把一盤棋嵌入成 128 維，再對庫內玩家算機率）：`/usr/bin/python3 scripts/experiments/e91/e91_embed_b.py head|embed GAMES.npz OUT.npz --net-dir D --head F`。測試棋局用 `e91_final.py prep-test` 和 `embed-test`，驗證版用 `e96/e96_embed.py`。
 - 輸入：約 100 萬盤的己方局面，共 18 個 19×19 平面。輸出：`finh_full/final_model.pt`（權重），以及 `.scratch/e91/b/{head_b.npz,S_test_own_b.npz,S_test_opp_b.npz}`。
 
@@ -227,7 +227,7 @@ Rank 用它「看對手是誰」。
 
 驗證版是 `ft4_s0`，交件版是 `final_s0`。做法是把 KataGo humanv0 解凍最後 4 個區塊，接上集合網路和序數頭，用段位標籤微調。微調後的區塊存在這兩個檔裡，屬 KataGo HumanSL 的衍生權重，依 KataGo Neural Network License 散布（全文見 `LICENSE-KataGo-network.txt`）。其餘的權重是我們自己從頭訓練的。
 
-- 訓練資料：K 線局面編碼用 `python scripts/experiments/e89/encode_k.py plan|run ...`。驗證版 bundle 用 `scripts/experiments/e98/e98_data.py extract`。交件版用 `scripts/experiments/e103/e103_final_data.py select|merge|verify`，它會加入驗證折的玩家，抽局面仍用 `e98_data.py extract`。測試端 bundle 用 `e103_data.py build|check|prep-test`。
+- 訓練資料：K 線局面編碼用 `python scripts/experiments/e89/encode_k.py plan|run ...`。驗證版 bundle 用 `scripts/experiments/e98/e98_data.py extract`。交件版用 `scripts/experiments/e103/e103_final_data.py select|merge|verify`，它會加入驗證組的玩家，抽局面仍用 `e98_data.py extract`。測試端 bundle 用 `e103_data.py build|check|prep-test`。
 - 訓練（GPU，可續跑，12,000 步、種子 0）：驗證版 `python3 scripts/experiments/e98/e98_train.py --arm ft4 --seed 0 ...`，交件版 `python3 scripts/experiments/e103/e103_train.py --arm ft4 --seed 0 --run-name final_s0 ...`。後者是 e103 的複本，只改了訓練玩家集合。
 - 推論（每題 10 類機率 `q_probs`）：驗證題用 `python3 scripts/experiments/e98/e98_export.py --arm ft4 --seed 0 --steps 12000 --val bundle_val12 --out ft4_s0_val12.npz`，測試題用 `python3 scripts/experiments/e103/e103_export.py --arm ft4 --seed 0 --steps 12000 --val ... --out final_s0_test12.npz`。
 - 輸入：外部的 `b18c384nbt-humanv0.ckpt` 和局面 bundle。輸出：`runs/{ft4_s0,final_s0}/last.pt`（權重）、`ft4_s0_val12.npz`、`final_s0_test12.npz`。
@@ -244,16 +244,16 @@ Rank 用它「看對手是誰」。
 
 #### 9. 集合神經網路（DeepSets 加 CORAL，A1T2）
 
-共 15 個模型，5 折乘 3 個種子。
+共 15 個模型，五組乘 3 個種子。
 
-- 訓練（GPU，可一次只跑一折）：`python3 scripts/oneoff/e63_a1.py [--folds 0 1 2 3 4] [--seeds 0 1 2]`。網路定義與取樣在 `scripts/experiments/e29/setmodel.py`。
+- 訓練（GPU，可一次只跑一組）：`python3 scripts/oneoff/e63_a1.py [--folds 0 1 2 3 4] [--seeds 0 1 2]`。網路定義與取樣在 `scripts/experiments/e29/setmodel.py`。
 - 推論：`python3 scripts/oneoff/e63_predict.py infer`，CPU 也能跑。測試特徵要先用 `python -m scripts.experiments.e29.predict_test features` 或 `e35.build_x120 test` 產生。輸出 `set_A1T2.npy`（[5,3,800,10]）。
-- 輸入：X235，內容是 HumanSL 104 欄、L0 31 欄、SE 2 欄加缺值旗標、is_white、tk48、lk48。輸出：模型檔（每折每個種子一個）和 `set_A1T2.npy`。
+- 輸入：X235，內容是 HumanSL 104 欄、L0 31 欄、SE 2 欄加缺值旗標、is_white、tk48、lk48。輸出：模型檔（每組每個種子一個）和 `set_A1T2.npy`。
 
 #### 10. 注意力集合神經網路（A1P，15 個模型）
 
-- 訓練（GPU）：`python3 scripts/oneoff/e79_a1p.py [--folds 0 1 2 3 4]`。每折先用 4 格網格選 p_in 和 tdrop，再訓練種子 0、1、2。
-- 推論：`python3 scripts/oneoff/e79_predict.py infer --out set_A1P.npy`。`valcheck` 可以先驗證能不能重現驗證折的機率。
+- 訓練（GPU）：`python3 scripts/oneoff/e79_a1p.py [--folds 0 1 2 3 4]`。每組先用 4 格網格選 p_in 和 tdrop，再訓練種子 0、1、2。
+- 推論：`python3 scripts/oneoff/e79_predict.py infer --out set_A1P.npy`。`valcheck` 可以先驗證能不能重現驗證組的機率。
 - 輸入：X139 加 24 個局面 token。輸出：模型檔和 `set_A1P.npy`。
 
 #### 11. 基礎模型融合（v9 融合）
