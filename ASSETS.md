@@ -1,16 +1,18 @@
 # 檔案清單（ASSETS）：Rank（競賽二）
 
-2026-11-26 在原專案實測（大小與 sha256 由腳本計算）。`colab/assets_manifest.json` 是同一份清單的機器可讀版（`category` 欄分類）；`colab/reproduce_final.ipynb` 依它下載、驗 sha256。
-本 repo **不含**下列任何檔案。每個檔案屬於三類之一：
+這份清單列出搭配本 repo 使用的所有檔案，含大小與 sha256，由腳本在 2026-11-26 於原專案實測。機器可讀版是 `colab/assets_manifest.json`，其中 `category` 欄是分類。`colab/reproduce_final.ipynb` 會依它下載並驗證 sha256。
+
+本 repo 不含這些檔案。它們分成三類：
 
 | 類別 | 做法 |
 |---|---|
-| **自訓權重（公開 Release）** | 我們自己訓練出來的模型參數。放在這個 repo 的 GitHub Release，下載網址 `RELEASE_URL` = `https://github.com/Jadiouo/aicup2026-go-rank/releases/download/v1.0/`（已填入 `colab/*.ipynb` 與 README；各檔下載網址為此前綴加資產名） |
-| **官方資料衍生中間檔（僅提供主辦方）** | 由主辦方的官方棋譜算出來的特徵、向量、各模型對測試題／驗證題的機率與預測檔。**不放 repo、不放 Release**；可應主辦單位要求以私人連結另行提供。沒有它們時如何重新產生，見 README |
-| **外部（不散布，附下載網址）** | KataGo 執行檔與網路、HumanSL 檢查點、Strength Estimator 權重。我們不再散布，只給官方網址與放置路徑（第 3 節） |
+| 自訓權重（公開 Release） | 我們自己訓練出來的模型參數，放在這個 repo 的 GitHub Release。下載網址前綴是 `RELEASE_URL` = `https://github.com/Jadiouo/aicup2026-go-rank/releases/download/v1.0/`，已填入 `colab/*.ipynb`。各檔的下載網址是這個前綴加資產名 |
+| 官方資料衍生中間檔（僅提供主辦方） | 由主辦方的官方棋譜算出來的特徵、向量，以及各模型對測試題與驗證題的機率和預測檔。不放 repo，也不放 Release，可應主辦單位要求以私人連結提供。沒有它們時怎麼重新產生，見 PIPELINE.md |
+| 外部（不散布，附下載網址） | KataGo 執行檔與網路、HumanSL 檢查點、Strength Estimator 權重。我們不散布，只給官方網址與放置路徑（第 3 節） |
 
-分類依據：只含「模型參數」（權重、投影矩陣、迴歸係數）者為自訓權重；凡含官方棋局的內容、由官方棋局逐盤算出的數值、對官方題目的預測，或內含官方玩家 id／標籤者，一律列為中間檔。
-**Release 上的檔名**：Release 沒有資料夾，清單的「資產名」就是 Release 上的檔名（`/` 已換成 `__`）。**放回 repo 的位置**是相對 repo 根（`data/`、`.scratch/` 約定見 README）。
+分類的標準是這樣：只含模型參數（權重、投影矩陣、迴歸係數）的歸為自訓權重。含官方棋局內容、由官方棋局逐盤算出的數值、對官方題目的預測，或內含官方玩家 id 與標籤的，一律歸為中間檔。
+
+Release 沒有資料夾，所以清單裡的資產名就是 Release 上的檔名，路徑的 `/` 換成 `__`。「放回 repo 的位置」是相對於 repo 根目錄的路徑，`data/` 和 `.scratch/` 的約定見 PIPELINE.md 的「環境與路徑」。
 
 ## 1. 自訓權重（公開 Release）
 
@@ -28,7 +30,7 @@
 
 **注意**
 - `.pkl` 檔（pickle）載入時會執行程式碼；請只使用本 repo Release 的檔案，並先核對 sha256。
-- 以 KataGo HumanSL 檢查點微調的權重（Rank 的 `final_s0`、`ft4_s0`）屬於衍生自 HumanSL 網路的模型，使用時請一併遵守 KataGo Neural Network License（見 README「外部資源」）。
+- 以 KataGo HumanSL 檢查點微調的權重（Rank 的 `final_s0`、`ft4_s0`）屬於衍生自 HumanSL 網路的模型，使用時請一併遵守 KataGo Neural Network License（見本檔第 3 節）。
 
 ## 2. 官方資料衍生中間檔（僅提供主辦方；不在 repo、不在 Release）
 
